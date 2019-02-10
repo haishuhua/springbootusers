@@ -6,6 +6,7 @@ import com.techprimers.db.repository.UsersRepository;
 import jdk.management.resource.internal.inst.StaticInstrumentation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class UsersResource {
     }
 
     @PostMapping(value = "/load")
+    @CacheEvict(value="users",allEntries=true)
     public List<Users> persist(@RequestBody final Users users) {
         log.info(users.getId());
         System.out.println(users.getName());
