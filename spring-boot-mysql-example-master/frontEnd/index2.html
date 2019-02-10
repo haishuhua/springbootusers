@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl" style="padding-left: 100px;padding-top: 50px;">
+
+    <p>Hello, Joseph</p>
+    <table class="table table-bordered">
+        <th>ID</th>
+        <th>Name</th>
+        <th>Team Name</th>
+        <th>Salary</th>
+        <tr ng-repeat="user in users">
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.teamName}}</td>
+            <td>{{user.salary}}</td>
+        </tr>
+    </table>
+    <div>
+    <form>
+        <div class="input-group mb-3">
+        <p>Name : <input class="form-control"  type="text" ng-model="newUser.name"></p>
+        </div>
+        <div class="input-group mb-3">
+        <p>Team Name : <input class="form-control" type="text" ng-model="newUser.teamName"></p>
+        </div>
+        <div class="input-group mb-3">
+        <p>Salary : <input class="form-control" type="text" ng-model="newUser.salary"></p>
+        </div>
+        <button class="btn btn-primary" ng-click="addNewUser(newUser)">Add New User</button>
+    </form>
+    </div>
+
+</div>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope, $http) {
+      $http.get("http://localhost:8080/rest/users/all")
+        .then(function(response) {
+          $scope.users = response.data;
+        });
+
+
+      $scope.newUser = {
+        name: "",
+        teamName: "",
+        salary: ""
+      };
+
+      $scope.addNewUser = function() {
+        alert($scope.newUser.name);
+      };
+
+      $scope.addNewUser = function(data) {
+
+        $http({
+            method: 'POST',
+            url: "http://localhost:8080/rest/users/load",
+            data: JSON.stringify(data)
+          })
+          .then(function(success) {
+            callback(success);
+          }, function(error) {
+            errorCallback(error.data);
+          });
+        location.reload();
+      };
+
+    });
+  </script>
+
+</body>
+
+</html>
