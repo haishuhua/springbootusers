@@ -3,12 +3,13 @@ package com.techprimers.db.resource;
 import com.techprimers.db.dao.UsersDao;
 import com.techprimers.db.model.Users;
 import com.techprimers.db.repository.UsersRepository;
-import jdk.management.resource.internal.inst.StaticInstrumentation;
+import com.techprimers.db.services.WeatherService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,6 +22,9 @@ public class UsersResource {
     @Autowired
     UsersDao usersDao;
 
+    @Autowired
+    WeatherService weatherService;
+
     private static final Logger log = Logger.getLogger(UsersResource.class);
 
 
@@ -30,11 +34,12 @@ public class UsersResource {
     }
 
     @PostMapping(value = "/load")
-    @CacheEvict(value="users",allEntries=true)
+    @CacheEvict(value = "users", allEntries = true)
     public List<Users> persist(@RequestBody final Users users) {
         log.info(users.getId());
         System.out.println(users.getName());
         usersRepository.save(users);
+        clear();
         return usersRepository.findAll();
     }
 
@@ -48,6 +53,15 @@ public class UsersResource {
         return usersDao.getUserFromId(1);
     }
 
+    @PostMapping(value = "/clear")
+    @CacheEvict(value = "users", allEntries = true)
+    public void clear() {
+    }
 
+
+    @GetMapping(value = "/weather")
+    public String weather() throws IOException {
+       return weatherService.getWeatherByZip("11363");
+    }
 
 }
