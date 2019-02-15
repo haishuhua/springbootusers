@@ -7,8 +7,10 @@ import com.techprimers.db.services.WeatherService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import com.techprimers.db.services.MailService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class UsersResource {
 
     @Autowired
     WeatherService weatherService;
+
+    @Autowired
+    MailService mailService;
 
     private static final Logger log = Logger.getLogger(UsersResource.class);
 
@@ -62,6 +67,17 @@ public class UsersResource {
     @GetMapping(value = "/weather")
     public String weather() throws IOException {
        return weatherService.getWeatherByZip("11363");
+    }
+
+    @GetMapping(value = "/sendemail/{mailto}/")
+    public String sendEmail(@PathVariable String mailto) throws MessagingException {
+        System.out.println(mailto);
+        System.out.println(mailto.equalsIgnoreCase("cxy0224@gmail.com"));
+
+        mailService.sendmail(mailto,"Sunny");
+        //mailService.sendHTMLMail(mailTo,"Sunny");
+
+        return "Email sent successfully to: " +mailto;
     }
 
 }

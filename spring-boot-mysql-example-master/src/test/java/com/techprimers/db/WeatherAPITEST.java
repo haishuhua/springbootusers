@@ -28,7 +28,7 @@ public class WeatherAPITEST {
 
     @Test
     public void weatherTestForZipCodeWithRealZip() throws IOException {
-      //  assertEquals( weatherService.getWeatherByZip("11363"), "TEST");
+        assertEquals( weatherService.getWeatherByZip("11363"), null);
     }
 
 }

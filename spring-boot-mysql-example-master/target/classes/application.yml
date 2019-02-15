@@ -14,5 +14,16 @@ spring:
   cache:
     ehcache:
       config: classpath:ehcache.xml
+  mail:
+     host: smtp.gmail.com
+     username: weatheralertawesome
+     password: WeatherAlert14
+     properties:
+       mail:
+        smtp:
+         auth: true
+         starttls:
+          enable: true
+          required: true
 
 
