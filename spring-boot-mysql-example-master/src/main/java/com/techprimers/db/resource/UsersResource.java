@@ -71,8 +71,6 @@ public class UsersResource {
 
     @GetMapping(value = "/sendemail/{mailto}/")
     public String sendEmail(@PathVariable String mailto) throws MessagingException {
-        System.out.println(mailto);
-        System.out.println(mailto.equalsIgnoreCase("cxy0224@gmail.com"));
 
         mailService.sendmail(mailto,"Sunny");
         //mailService.sendHTMLMail(mailTo,"Sunny");

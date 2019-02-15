@@ -20,16 +20,13 @@ public class MailService {
     public static String MAIL_TO = "cxy0224@gmail.com";
 
     public void sendmail(String mailTo, String weather) {
-        System.out.println("HERE");
         try {
-            System.out.println("HERE");
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(MAIL_FROM);
             message.setTo(mailTo);
             message.setSubject("Today's Weather");
             message.setText(weather);
             mailSender.send(message);
-            System.out.println(message.toString());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
