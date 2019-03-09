@@ -9,8 +9,5 @@
         <module name="spring-boot-mysqldb" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="spring-boot-mysqldb" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

@@ -58,22 +58,26 @@ public class UsersResource {
         return usersDao.getUserFromId(1);
     }
 
-    @PostMapping(value = "/clear")
+    @GetMapping(value = "/clear")
     @CacheEvict(value = "users", allEntries = true)
     public void clear() {
     }
 
 
-    @GetMapping(value = "/weather")
-    public String weather() throws IOException {
-       return weatherService.getWeatherByZip("11363");
+    @GetMapping(value = "/weather/{zipCode}")
+    public String weather(@PathVariable String zipCode) throws IOException {
+       return weatherService.getWeatherByZip(zipCode);
     }
 
-    @GetMapping(value = "/sendemail/{mailto}/")
-    public String sendEmail(@PathVariable String mailto) throws MessagingException {
-
-        mailService.sendmail(mailto,"Sunny");
-        //mailService.sendHTMLMail(mailTo,"Sunny");
+    @GetMapping(value = "/weather/{zipCode}/sendemail/{mailto}/")
+    public String sendEmail(@PathVariable String mailto,@PathVariable String zipCode) throws MessagingException {
+        String weather = null;
+        try {
+            weather = weatherService.getWeatherByZip(zipCode);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mailService.sendmail(mailto,weather);
 
         return "Email sent successfully to: " +mailto;
     }
