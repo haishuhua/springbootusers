@@ -5,48 +5,81 @@
 
 <body>
 
-<div ng-app="myApp" ng-controller="myCtrl" style="padding-left: 100px;padding-top: 50px;">
+  <div ng-app="myApp" ng-controller="myCtrl" style="padding-left: 100px;padding-top: 50px;">
 
-    <h1>Hello, Joseph</h1>
+    <h1>Hello, X-Man</h1>
 
-    <img src="/Users/xiaoyi/Downloads/IMG_20190205_092942.jpg" />
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI24BxiUTbBzI-CAXTzN93aocg5BbnoziHln0ZpVlEoBll1N_M" />
 
+    
+    <h2>You zip is {{zip}}</h2>
+
+
+
+    <input class="form-control" type="text" ng-model="email" placeholder="Email" />
+
+    <h2>{{weather}}</h2> <button class="btn btn-primary"  ng-click="getWeather()">Get Weather</button>
+    <h1></h1> <button class="btn btn-primary" ng-click="shareWeather()">Share Weather with email</button>
+
+    <h1></h1>
     <table class="table table-bordered">
-        <th>ID</th>
-        <th>Name</th>
-        <th>Team Name</th>
-        <th>Salary</th>
-        <tr ng-repeat="user in users">
-            <td>{{user.id}}</td>
-            <td>{{user.name}}</td>
-            <td>{{user.teamName}}</td>
-            <td>{{user.salary}}</td>
-        </tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Team Name</th>
+      <th>Salary</th>
+      <tr ng-repeat="user in users">
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.teamName}}</td>
+        <td>{{user.salary}}</td>
+      </tr>
     </table>
     <div>
-    <form>
+      <form>
         <div class="input-group mb-3">
-        <p>Name : <input class="form-control"  type="text" ng-model="newUser.name"></p>
+          <p>Name : <input class="form-control" type="text" ng-model="newUser.name"></p>
         </div>
         <div class="input-group mb-3">
-        <p>Team Name : <input class="form-control" type="text" ng-model="newUser.teamName"></p>
+          <p>Team Name : <input class="form-control" type="text" ng-model="newUser.teamName"></p>
         </div>
         <div class="input-group mb-3">
-        <p>Salary : <input class="form-control" type="text" ng-model="newUser.salary"></p>
+          <p>Salary : <input class="form-control" type="text" ng-model="newUser.salary"></p>
         </div>
         <button class="btn btn-primary" ng-click="addNewUser(newUser)">Add New User</button>
-    </form>
+      </form>
     </div>
 
-</div>
+  </div>
 
-<script>
+  <script>
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function($scope, $http) {
       $http.get("http://localhost:8080/rest/users/all")
         .then(function(response) {
           $scope.users = response.data;
         });
+      $http.get('http://ip-api.com/json')
+        .then(
+          function success(response) {
+            $scope.zip = response.data.zip;
+          },
+
+          function fail(data, status) {
+            console.log('Request failed.  Returned status of',
+              status);
+          }
+        );
+
+        $scope.getWeather = function() {
+
+          $http({
+              method: 'GET',
+              url: "http://localhost:8080/rest/users/weather/" +  $scope.zip
+            })
+            .then(function(response) {
+            $scope.weather ="Today weather is " + response.data.response;
+            });
+        };
 
 
       $scope.newUser = {

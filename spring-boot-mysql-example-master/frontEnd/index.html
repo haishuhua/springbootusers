@@ -11,6 +11,30 @@
 <div>
     <p class="greeting-id">The ID is </p>
     <p class="greeting-content">The content is </p>
+    <p class="zipCode">The Zip Code is </p>
+
+    <input type = "hidden" class="zip" ></input>
+
+    <input type = "text" class="email" placeholder="email"> </input>
+    <button onclick="getWeather()" >Send me the weather </button>
+
 </div>
+
+<script>
+function getWeather() {
+  var email =   $('.email').val();
+  var zipCode =   $('.zip').val();
+  alert(email + zipCode);
+
+  $.ajax({
+    url: "http://localhost:8080/rest/users/weather/11363/sendemail/cxy0224@gmail.com/"
+  }).then(function(data, status, jqxhr) {
+    alert(jqxhr.responseText);
+    console.log(jqxhr);
+  });
+
+
+}
+</script>
 </body>
 </html>
