@@ -35,8 +35,7 @@ public class WeatherController {
             //if time difference is less than 10mins
 
             long diff = System.currentTimeMillis() - weatherMap.get(zipCode).getTime();
-
-            if (diff <= 600)
+            if (diff <= 60000)
                 return new StringResponse(weatherMap.get(zipCode).getCondition());
         }
 
