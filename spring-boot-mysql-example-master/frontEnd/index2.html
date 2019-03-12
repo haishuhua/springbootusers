@@ -54,7 +54,7 @@
   <script>
     var app = angular.module('myApp', []);
     app.controller('myCtrl', function($scope, $http) {
-      $http.get("http://localhost:8080/rest/users/all")
+      $http.get("http://localhost:8080/users")
         .then(function(response) {
           $scope.users = response.data;
         });
@@ -74,7 +74,7 @@
 
           $http({
               method: 'GET',
-              url: "http://localhost:8080/rest/users/weather/" +  $scope.zip
+              url: "http://localhost:8080/weather/" +  $scope.zip
             })
             .then(function(response) {
             $scope.weather ="Today weather is " + response.data.response;
@@ -96,7 +96,7 @@
 
         $http({
             method: 'POST',
-            url: "http://localhost:8080/rest/users/load",
+            url: "http://localhost:8080/user",
             data: JSON.stringify(data)
           })
           .then(function(success) {

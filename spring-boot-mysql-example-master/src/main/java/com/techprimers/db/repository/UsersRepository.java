@@ -10,7 +10,7 @@ import java.util.List;
 @CacheConfig(cacheNames = "users")
 public interface UsersRepository extends JpaRepository<Users, Integer> {
     @Cacheable
-    Users findByName(String name);
+    List<Users> findByName(String name);
 
     @Cacheable
     List<Users> findAll();
