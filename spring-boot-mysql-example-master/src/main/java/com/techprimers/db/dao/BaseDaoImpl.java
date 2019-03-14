@@ -118,7 +118,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
     @SuppressWarnings("unchecked")
     public T read(PK id) {
         log.debug("read()");
-        return (T) getCurrentSession().get(classType, id);
+        return getCurrentSession().get(classType, id);
     }
 
     /**
@@ -159,17 +159,17 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
                 dataType = classUtil.getFieldDataType(fieldName);
                 if (dataType != null && fieldName != null && fieldName.length() > 0) {
                     if (dataType.equalsIgnoreCase("java.lang.Integer"))
-                        criteria.add(Restrictions.eq(fieldName, (Integer) fieldValue));
+                        criteria.add(Restrictions.eq(fieldName, fieldValue));
                     else if (dataType.equalsIgnoreCase("java.lang.BigInteger"))
-                        criteria.add(Restrictions.eq(fieldName, (BigInteger) fieldValue));
+                        criteria.add(Restrictions.eq(fieldName, fieldValue));
                     else if (dataType.equalsIgnoreCase("java.lang.Double"))
-                        criteria.add(Restrictions.eq(fieldName, (Double) fieldValue));
+                        criteria.add(Restrictions.eq(fieldName, fieldValue));
                     else if (dataType.equalsIgnoreCase("java.util.Date"))
-                        criteria.add(Restrictions.eq(fieldName, (Date) fieldValue));
+                        criteria.add(Restrictions.eq(fieldName, fieldValue));
                     else if (dataType.equalsIgnoreCase("java.lang.Boolean"))
-                        criteria.add(Restrictions.eq(fieldName, (Boolean) fieldValue));
+                        criteria.add(Restrictions.eq(fieldName, fieldValue));
                     else
-                        criteria.add(Restrictions.eq(fieldName, (String) fieldValue));
+                        criteria.add(Restrictions.eq(fieldName, fieldValue));
                 }
             }
         }
@@ -395,7 +395,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
                                 else if (object instanceof Boolean)
                                     ps.setBoolean(fieldsToInsert.get(pd.getName()), (Boolean) object);
                                 else if (object instanceof UUID)
-                                    ps.setObject(fieldsToInsert.get(pd.getName()), ((UUID) object));
+                                    ps.setObject(fieldsToInsert.get(pd.getName()), object);
                                 else
                                     ps.setObject(fieldsToInsert.get(pd.getName()), object);
                             } catch (Exception e) {
@@ -507,7 +507,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
                                     else if (object instanceof Boolean)
                                         ps.setBoolean(fieldsToInsert.get(pd.getName()), (Boolean) object);
                                     else if (object instanceof UUID)
-                                        ps.setObject(fieldsToInsert.get(pd.getName()), ((UUID) object));
+                                        ps.setObject(fieldsToInsert.get(pd.getName()), object);
                                     else
                                         ps.setObject(fieldsToInsert.get(pd.getName()), object);
                                 } catch (Exception e) {
@@ -575,7 +575,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
                 .setProjection(Projections.projectionList().add(Projections.property(GlobalConstants.DB_COLUMN_ID)))
                 .add(Restrictions.eq(GlobalConstants.DB_COLUMN_ID, id));
 
-        return ((Object) criteria.uniqueResult()) != null;
+        return criteria.uniqueResult() != null;
 
     }
 
@@ -586,7 +586,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
                 .setProjection(Projections.projectionList().add(Projections.property(GlobalConstants.DB_COLUMN_ID)))
                 .add(Restrictions.eq(GlobalConstants.DB_COLUMN_ID, id));
 
-        return ((Object) criteria.uniqueResult()) != null;
+        return criteria.uniqueResult() != null;
 
     }
 
@@ -608,7 +608,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 
         List<PK> idList = (List<PK>) criteria.setMaxResults(2).list();
 
-        return (idList.isEmpty() || (checkUnique && idList.size() != 1)) ? null : (PK) idList.get(0);
+        return (idList.isEmpty() || (checkUnique && idList.size() != 1)) ? null : idList.get(0);
     }
 
 
@@ -649,7 +649,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
 
         List<T> list = (List<T>) criteria.setMaxResults(2).list();
 
-        return (list.isEmpty() || (checkUnique && list.size() != 1)) ? null : (T) list.get(0);
+        return (list.isEmpty() || (checkUnique && list.size() != 1)) ? null : list.get(0);
 
     }
 
@@ -706,7 +706,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements BaseDao<T, PK> {
                 .setProjection(Projections.projectionList().add(Projections.property(fieldName)))
                 .add(Restrictions.eq(GlobalConstants.DB_COLUMN_ID, id));
 
-        return (Object) criteria.uniqueResult();
+        return criteria.uniqueResult();
     }
 
     public Map<PK, String> getIdToFieldMap(String fieldName) {

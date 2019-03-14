@@ -22,7 +22,7 @@ public class ClassUtil {
         fieldGetters = new ArrayList<Method>();
         fieldSetters = new ArrayList<Method>();
 
-        BeanInfo info = null;;
+        BeanInfo info = null;
         PropertyDescriptor[] props = null;
         try {
             info = Introspector.getBeanInfo(classType, Object.class);
